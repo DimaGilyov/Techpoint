@@ -9,12 +9,13 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            CompetitionResults prigramm = new CompetitionResults();
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\236");
+            Alerts prigramm = new Alerts();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\242");
 
             bool start = true;
             if (start)
             {
+                DateTime startTime = DateTime.Now;
                 foreach (string file in files)
                 {
                     if (!file.EndsWith(".a"))
@@ -23,6 +24,7 @@ namespace Techpoint
                         prigramm.Run(file);
                     }
                 }
+                Console.WriteLine(DateTime.Now - startTime);
 
                 foreach (string file in files)
                 {
