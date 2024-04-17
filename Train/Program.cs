@@ -1,4 +1,5 @@
-﻿using Train.Stickers;
+﻿using Train.Alerts;
+using Train.Stickers;
 using Train.Summator;
 
 namespace Techpoint
@@ -7,30 +8,37 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            Stickers prigramm = new Stickers();
-            string[] files = Directory.GetFiles(@"C:\\Users\\DimaG\Downloads\238");
+            Alerts prigramm = new Alerts();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\242");
 
-            foreach (string file in files)
+            bool start = true;
+            if (start)
             {
-                if (file.EndsWith(".Test"))
+                foreach (string file in files)
                 {
-                    File.Delete(file);
+                    if (!file.EndsWith(".a"))
+                    {
+                        Console.WriteLine($"Run:{file}");
+                        prigramm.Run(file);
+                    }
+                }
+
+                foreach (string file in files)
+                {
+                    if (file.EndsWith(".a"))
+                    {
+                        Test(file);
+                    }
                 }
             }
-
-            foreach (string file in files)
+            else
             {
-                if (!file.EndsWith(".a"))
+                foreach (string file in files)
                 {
-                    prigramm.Run(file);
-                }
-            }
-
-            foreach (string file in files)
-            {
-                if (file.EndsWith(".a"))
-                {
-                    Test(file);
+                    if (file.EndsWith(".Test"))
+                    {
+                        File.Delete(file);
+                    }
                 }
             }
             Console.WriteLine("End");
@@ -40,8 +48,8 @@ namespace Techpoint
         public static void Test(string inputFilePath)
         {
             string testPath = inputFilePath.Replace(".a", ".Test");
-            string orig = File.ReadAllText(inputFilePath).Trim();
-            string myResult = File.ReadAllText(testPath).Trim();
+            string orig = File.ReadAllText(inputFilePath).Trim().Replace("\r\n", "\n");
+            string myResult = File.ReadAllText(testPath).Trim().Replace("\r\n", "\n"); ;
             if (orig != myResult)
             {
                 Console.WriteLine($"Test failed:{inputFilePath}");
