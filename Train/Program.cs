@@ -1,4 +1,5 @@
 ﻿using Train.Alerts;
+using Train.CompetitionResults;
 using Train.Stickers;
 using Train.Summator;
 
@@ -8,8 +9,8 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            Alerts prigramm = new Alerts();
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\242");
+            CompetitionResults prigramm = new CompetitionResults();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\236");
 
             bool start = true;
             if (start)
