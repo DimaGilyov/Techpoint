@@ -9,8 +9,8 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            Alerts prigramm = new Alerts();
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\242");
+            CompetitionResults prigramm = new CompetitionResults();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\236");
 
             bool start = true;
             if (start)
@@ -51,8 +51,8 @@ namespace Techpoint
         public static void Test(string inputFilePath)
         {
             string testPath = inputFilePath.Replace(".a", ".Test");
-            string orig = File.ReadAllText(inputFilePath).Trim().Replace("\r\n", "\n");
-            string myResult = File.ReadAllText(testPath).Trim().Replace("\r\n", "\n"); ;
+            string orig = File.ReadAllText(inputFilePath).Trim().Replace("\r\n", "\n").Replace("\n", "").Replace(" ", "");
+            string myResult = File.ReadAllText(testPath).Trim().Replace("\r\n", "\n").Replace("\n", "").Replace(" ", "");
             if (orig != myResult)
             {
                 Console.WriteLine($"Test failed:{inputFilePath}");

@@ -1,4 +1,6 @@
-﻿namespace Train.CompetitionResults
+﻿using System.Numerics;
+
+namespace Train.CompetitionResults
 {
     internal class CompetitionResults
     {
@@ -26,7 +28,29 @@
 
                 Array.Sort(dataSet, (a, b) => a.time.CompareTo(b.time));
 
-                int a = 0;
+                int[] leaderBoard = new int [n];
+
+                int curPlace = 1;
+                int lastIndex = 0;
+                int lastTime = 0;
+
+                for (int j = 0; j < dataSet.Length; ++j)
+                { 
+                    var player = dataSet[j];
+                    int index = player.number;
+                    int time = player.time;
+                    if (Math.Abs(time - lastTime) > 1)
+                    {
+                        curPlace = j + 1;
+                    }
+
+                    leaderBoard[index] = curPlace;
+                    lastIndex = index;
+                    lastTime = time;
+                }
+
+                string response = string.Join(" ", leaderBoard);
+                output.Write($"{response}\n");
             }
         }
     }
