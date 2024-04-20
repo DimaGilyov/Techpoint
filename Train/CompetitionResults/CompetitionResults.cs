@@ -6,12 +6,12 @@ namespace Train.CompetitionResults
     {
         public void Run(string inputFilePath = "")
         {
-            string outputFilePath = $"{inputFilePath}.Test";
-            using var input = new StreamReader(inputFilePath);
-            using var output = new StreamWriter(outputFilePath);
+            //string outputFilePath = $"{inputFilePath}.Test";
+            //using var input = new StreamReader(inputFilePath);
+            //using var output = new StreamWriter(outputFilePath);
 
-            //using var input = new StreamReader(Console.OpenStandardInput());
-            //using var output = new StreamWriter(Console.OpenStandardOutput());
+            using var input = new StreamReader(Console.OpenStandardInput());
+            using var output = new StreamWriter(Console.OpenStandardOutput());
 
             int t = int.Parse(input.ReadLine());
 
@@ -50,7 +50,7 @@ namespace Train.CompetitionResults
                 }
 
                 string response = string.Join(" ", leaderBoard);
-                output.Write($"{response}\n");
+                output.WriteLine(response);
             }
         }
     }

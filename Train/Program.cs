@@ -1,6 +1,7 @@
 ﻿using Train.Alerts;
 using Train.Cards;
 using Train.CompetitionResults;
+using Train.DoctorsAppointments;
 using Train.Stickers;
 using Train.Summator;
 using Train.VirusFile;
@@ -11,8 +12,8 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            Cards prigramm = new Cards();
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\233");
+            CompetitionResults prigramm = new CompetitionResults();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\236");
 
             bool start = true;
             if (start)

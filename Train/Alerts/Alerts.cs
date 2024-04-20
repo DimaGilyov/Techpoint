@@ -4,19 +4,21 @@
     {
         public void Run(string inputFilePath = "")
         {
-            string outputFilePath = $"{inputFilePath}.Test";
-            using var input = new StreamReader(inputFilePath);
-            using var output = new StreamWriter(outputFilePath);
+            //string outputFilePath = $"{inputFilePath}.Test";
+            //using var input = new StreamReader(inputFilePath);
+            //using var output = new StreamWriter(outputFilePath);
 
-            //using var input = new StreamReader(Console.OpenStandardInput());
-            //using var output = new StreamWriter(Console.OpenStandardOutput());
+            using var input = new StreamReader(Console.OpenStandardInput());
+            using var output = new StreamWriter(Console.OpenStandardOutput());
 
             int[] data = Array.ConvertAll(input.ReadLine().Split(), int.Parse);
             int n = data[0];
             int q = data[1];
 
-            int[] response = new int[n + 1]; 
+            //int[] response = new int[n + 1]; 
             int msgNumber = 0;
+            int globalMsgNumber = 0;
+            Dictionary<int, int> messages = new Dictionary<int, int>();
             for (int i = 0; i < q; i++)
             {
                 int[] query = Array.ConvertAll(input.ReadLine().Split(), int.Parse);
@@ -28,16 +30,22 @@
                     msgNumber++;
                     if (id == 0)
                     {
-                        Array.Fill(response, msgNumber);
+                        globalMsgNumber = msgNumber;
+                        messages.Clear();
                     }
                     else
                     {
-                        response[id] = msgNumber;
+                        messages[id] = msgNumber;
                     }
                 }
                 else
                 {
-                    output.WriteLine(response[id]);
+                    int resp = 0;
+                    if (!messages.TryGetValue(id, out resp))
+                    {
+                        resp = globalMsgNumber;
+                    }
+                    output.WriteLine(resp);
                 }
             }
         }
