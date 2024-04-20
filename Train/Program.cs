@@ -2,6 +2,7 @@
 using Train.CompetitionResults;
 using Train.Stickers;
 using Train.Summator;
+using Train.VirusFile;
 
 namespace Techpoint
 {
@@ -9,8 +10,8 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            CompetitionResults prigramm = new CompetitionResults();
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\236");
+            VirusFile prigramm = new VirusFile();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\73");
 
             bool start = true;
             if (start)
@@ -51,8 +52,8 @@ namespace Techpoint
         public static void Test(string inputFilePath)
         {
             string testPath = inputFilePath.Replace(".a", ".Test");
-            string orig = File.ReadAllText(inputFilePath).Trim().Replace("\r\n", "\n").Replace("\n", "").Replace(" ", "");
-            string myResult = File.ReadAllText(testPath).Trim().Replace("\r\n", "\n").Replace("\n", "").Replace(" ", "");
+            string orig = File.ReadAllText(inputFilePath).Trim().Replace("\r\n", "\n");
+            string myResult = File.ReadAllText(testPath).Trim().Replace("\r\n", "\n");
             if (orig != myResult)
             {
                 Console.WriteLine($"Test failed:{inputFilePath}");
