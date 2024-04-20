@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text;
 
 namespace Techpoint
@@ -49,6 +47,11 @@ namespace Techpoint
             using var input = new StreamReader(Console.OpenStandardInput());
             using var output = new StreamWriter(Console.OpenStandardOutput());
 
+            var options = new JsonSerializerOptions
+            {
+                MaxDepth = 1000
+            };
+
             int t = int.Parse(input.ReadLine());
             for (int i = 0; i < t; i++)
             {
@@ -59,7 +62,7 @@ namespace Techpoint
                     jsonStr.Append(input.ReadLine());
                 }
 
-                Folder root = JsonSerializer.Deserialize<Folder>(jsonStr.ToString());
+                Folder root = JsonSerializer.Deserialize<Folder>(jsonStr.ToString(), options);
                 int filesCount = GetHackFilesCount(root, false);
                 output.WriteLine(filesCount);
             }
