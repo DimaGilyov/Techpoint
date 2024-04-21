@@ -10,7 +10,7 @@ namespace Techpoint
             using var input = new StreamReader(Console.OpenStandardInput());
             using var output = new StreamWriter(Console.OpenStandardOutput());
 
-            int t = int.Parse(input.ReadLine()); //количество наборов входных данны
+            int t = int.Parse(input.ReadLine());
             for (int i = 0; i < t; i++)
             {
                 int[] data = Array.ConvertAll(input.ReadLine().Split(), int.Parse);
@@ -22,7 +22,6 @@ namespace Techpoint
 
                 string blackWord = string.Empty;
                 string[] words = new string[wordsCount - 1];
-
                 int k = 0;
                 for (int j = 0; j < wordsCount; j++)
                 {
@@ -70,6 +69,7 @@ namespace Techpoint
         {
             HashSet<string> blackWordSuffixArray = SuffixArray(blackWord);
             blackWordSuffixArray.Add(blackWord);
+            HashSet<string> wordsHash = new HashSet<string>(words);
 
             Dictionary<string, int> blue = new Dictionary<string, int>();
             Dictionary<string, int> red = new Dictionary<string, int>();
@@ -78,7 +78,7 @@ namespace Techpoint
             {
                 string word = words[i];
                 HashSet<string> suffixArray = SuffixArray(word);
-                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e) || words.Contains(e));
+                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e) || wordsHash.Contains(e));
                 if (i < blueWordsCount)
                 {
                     foreach (string s in suffixArray)
