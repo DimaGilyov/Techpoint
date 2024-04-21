@@ -38,7 +38,8 @@ namespace Train.Codenames
                     }
                 }
 
-                string w = MostFrequentSubstr(words, blackWord);
+
+                string w = MostFrequentSubstr(words, blackWord, blueWordsCount, redWordsCount, out int maxDiffBetweenBlueAndRed);
 
                 int a = 0;
             }
@@ -66,19 +67,22 @@ namespace Train.Codenames
             return suffixes;
         }
 
-        public string MostFrequentSubstr(string[] words, string blackWord)
+        public string MostFrequentSubstr(string[] words, string blackWord, int blueWordsCount, int redWordsCount, out int maxDiffBetweenBlueAndRed)
         {
 
             List<string> blackWordSuffixArray = SuffixArray(blackWord);
             blackWordSuffixArray.Add(blackWord);
-            foreach (string word in words)
+            string[][] matrix = new string[words.Length][];
+
+            for (int i = 0; i < words.Length; i++)
             {
+                string word = words[i];
                 List<string> suffixArray = SuffixArray(word);
                 List<string> fildered = suffixArray.FindAll(x => !blackWordSuffixArray.Contains(x));
-                int a = 0;
+                matrix[i] = fildered.ToArray();
             }
 
-
+            maxDiffBetweenBlueAndRed = 0;
             string mostFreqSubstr = string.Empty;
 
 
