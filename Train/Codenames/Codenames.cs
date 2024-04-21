@@ -77,40 +77,58 @@ namespace Train.Codenames
             blackWordSuffixArray.Add(blackWord);
             string[][] matrix = new string[words.Length][];
 
+
+            Dictionary<string, int> blue = new Dictionary<string, int>();
+            Dictionary<string, int> red = new Dictionary<string, int>();
+
             for (int i = 0; i < words.Length; i++)
             {
                 string word = words[i];
                 HashSet<string> suffixArray = SuffixArray(word);
                 suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e));
                 matrix[i] = suffixArray.ToArray();
+                if (i < blueWordsCount)
+                {
+                    foreach (string s in suffixArray)
+                    {
+                        blue.TryGetValue(s, out int count);
+                        count++;
+                        blue[s] = count;
+                    }
+                }
+                else
+                {
+                    foreach (string s in suffixArray)
+                    {
+                        red.TryGetValue(s, out int count);
+                        count++;
+                        red[s] = count;
+                    }
+                }
             }
+
+            List<string> response = new List<string>();
 
             maxDiffBetweenBlueAndRed = 0;
-            string mostFreqSubstr = string.Empty;
-
-            Dictionary<string, int> blue = new Dictionary<string, int>();
-            for (int i = 0; i < blueWordsCount; i++)
+            foreach (var blueItem in blue)
             {
-                string[] subs = matrix[i];
-                foreach (string s in subs)
+                string subStr = blueItem.Key;
+                int blueCount = blueItem.Value;
+                red.TryGetValue(subStr, out int redCount);
+                int diff = blueCount - redCount;
+                if (diff < maxDiffBetweenBlueAndRed)
                 {
-                    blue.TryGetValue(s, out int count);
-                    count++;
-                    blue[s] = count;
+                    continue;
                 }
-            }
-
-            Dictionary<string, int> red = new Dictionary<string, int>();
-            for (int i = blueWordsCount; i < blueWordsCount + redWordsCount; i++)
-            {
-                string[] subs = matrix[i];
-                foreach (string s in subs)
+                if (diff > maxDiffBetweenBlueAndRed)
                 {
-                    red.TryGetValue(s, out int count);
-                    count++;
-                    red[s] = count;
+                    maxDiffBetweenBlueAndRed = diff;
+                    response.Clear();
                 }
+                response.Add(subStr);
             }
+            response.Sort((a, b) => b.Length.CompareTo(a.Length));
+            string mostFreqSubstr = response.FirstOrDefault();
 
             return mostFreqSubstr;
         }
