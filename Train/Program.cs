@@ -70,7 +70,7 @@ namespace Techpoint
                 string testLine = test[i].Split()[1]; ;
                 if (origLine != testLine)
                 {
-                    Console.WriteLine($"Test failed:{inputFilePath}");
+                    Console.WriteLine($"Test failed:{inputFilePath} {i}, origLine={origLine}, testLine={testLine}");
                 }
             }
         }

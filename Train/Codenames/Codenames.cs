@@ -7,7 +7,7 @@ namespace Train.Codenames
         public void Run(string inputFilePath = "")
         {
             string outputFilePath = $"{inputFilePath}.Test";
-            if (outputFilePath.EndsWith("10.Test"))
+            if (outputFilePath.EndsWith("13.Test"))
             {
                 int a = 0;
             }
@@ -78,8 +78,6 @@ namespace Train.Codenames
 
             HashSet<string> blackWordSuffixArray = SuffixArray(blackWord);
             blackWordSuffixArray.Add(blackWord);
-            string[][] matrix = new string[words.Length][];
-
 
             Dictionary<string, int> blue = new Dictionary<string, int>();
             Dictionary<string, int> red = new Dictionary<string, int>();
@@ -88,8 +86,7 @@ namespace Train.Codenames
             {
                 string word = words[i];
                 HashSet<string> suffixArray = SuffixArray(word);
-                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e));
-                matrix[i] = suffixArray.ToArray();
+                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e) || words.Contains(e));
                 if (i < blueWordsCount)
                 {
                     foreach (string s in suffixArray)

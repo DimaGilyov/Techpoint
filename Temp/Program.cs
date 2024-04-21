@@ -10,7 +10,7 @@ namespace Techpoint
             using var input = new StreamReader(Console.OpenStandardInput());
             using var output = new StreamWriter(Console.OpenStandardOutput());
 
-            int t = int.Parse(input.ReadLine());
+            int t = int.Parse(input.ReadLine()); //количество наборов входных данны
             for (int i = 0; i < t; i++)
             {
                 int[] data = Array.ConvertAll(input.ReadLine().Split(), int.Parse);
@@ -68,21 +68,17 @@ namespace Techpoint
 
         public static string MostFrequentSubstr(string[] words, string blackWord, int blueWordsCount, int redWordsCount, out int maxDiffBetweenBlueAndRed)
         {
-
             HashSet<string> blackWordSuffixArray = SuffixArray(blackWord);
             blackWordSuffixArray.Add(blackWord);
-            string[][] matrix = new string[words.Length][];
-
 
             Dictionary<string, int> blue = new Dictionary<string, int>();
             Dictionary<string, int> red = new Dictionary<string, int>();
-
+            Dictionary<string, int> white = new Dictionary<string, int>();
             for (int i = 0; i < words.Length; i++)
             {
                 string word = words[i];
                 HashSet<string> suffixArray = SuffixArray(word);
-                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e));
-                matrix[i] = suffixArray.ToArray();
+                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e) || words.Contains(e));
                 if (i < blueWordsCount)
                 {
                     foreach (string s in suffixArray)
@@ -92,13 +88,22 @@ namespace Techpoint
                         blue[s] = count;
                     }
                 }
-                else
+                else if (i >= blueWordsCount && i < blueWordsCount + redWordsCount)
                 {
                     foreach (string s in suffixArray)
                     {
                         red.TryGetValue(s, out int count);
                         count++;
                         red[s] = count;
+                    }
+                }
+                else
+                {
+                    foreach (string s in suffixArray)
+                    {
+                        white.TryGetValue(s, out int count);
+                        count++;
+                        white[s] = count;
                     }
                 }
             }
