@@ -1,71 +1,145 @@
-﻿using System.Text.Json;
-using System.Text;
+﻿using System.Text;
 
 namespace Techpoint
 {
 
-    public class Folder
+    public class Codenames
     {
-        public string dir { get; set; }
-        public string[] files { get; set; }
-        public Folder[] folders { get; set; }
-    }
-
-    public class Virus
-    {
-        public static int GetHackFilesCount(Folder folder, bool isVirus)
-        {
-            int filesCount = 0;
-
-            if (folder.files != null)
-            {
-                foreach (var fileName in folder.files)
-                {
-                    if (fileName.EndsWith(".hack"))
-                    {
-                        isVirus = true;
-                        break;
-                    }
-                }
-                if (isVirus)
-                    filesCount += folder.files.Length;
-            }
-
-            if (folder.folders != null)
-            {
-                foreach (var f in folder.folders)
-                {
-                    filesCount += GetHackFilesCount(f, isVirus);
-                }
-            }
-
-            return filesCount;
-        }
-
         public static void Main(string[] args)
         {
             using var input = new StreamReader(Console.OpenStandardInput());
             using var output = new StreamWriter(Console.OpenStandardOutput());
 
-            var options = new JsonSerializerOptions
-            {
-                MaxDepth = 1000
-            };
-
             int t = int.Parse(input.ReadLine());
             for (int i = 0; i < t; i++)
             {
-                StringBuilder jsonStr = new StringBuilder();
-                int n = int.Parse(input.ReadLine());
-                for (int j = 0; j < n; j++)
+                int[] data = Array.ConvertAll(input.ReadLine().Split(), int.Parse);
+                int wordsCount = data[0];
+                int blueWordsCount = data[1];
+                int redWordsCount = data[2];
+                int blackWordIndex = data[3] - 1;
+                int whiteWordsCount = wordsCount - blueWordsCount - redWordsCount - 1;
+
+                string blackWord = string.Empty;
+                string[] words = new string[wordsCount - 1];
+
+                int k = 0;
+                for (int j = 0; j < wordsCount; j++)
                 {
-                    jsonStr.Append(input.ReadLine());
+                    string word = input.ReadLine(); ;
+                    if (j == blackWordIndex)
+                    {
+                        blackWord = word;
+                    }
+                    else
+                    {
+                        words[k] = word;
+                        k++;
+                    }
                 }
 
-                Folder root = JsonSerializer.Deserialize<Folder>(jsonStr.ToString(), options);
-                int filesCount = GetHackFilesCount(root, false);
-                output.WriteLine(filesCount);
+
+                string w = MostFrequentSubstr(words, blackWord, blueWordsCount, redWordsCount, out int maxDiffBetweenBlueAndRed);
+                output.WriteLine($"{w} {maxDiffBetweenBlueAndRed}");
             }
+        }
+
+        public static HashSet<string> SuffixArray(string str)
+        {
+            int n = str.Length;
+            HashSet<string> suffixes = new HashSet<string>();
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i; j < n; j++)
+                {
+                    // Не берем такую подстроку, т.к это слово целиком
+                    if (i == 0 && j == n - 1)
+                    {
+                        continue;
+                    }
+                    string s = str.Substring(i, j - i + 1);
+                    suffixes.Add(s);
+                }
+            }
+
+            return suffixes;
+        }
+
+        public static string MostFrequentSubstr(string[] words, string blackWord, int blueWordsCount, int redWordsCount, out int maxDiffBetweenBlueAndRed)
+        {
+
+            HashSet<string> blackWordSuffixArray = SuffixArray(blackWord);
+            blackWordSuffixArray.Add(blackWord);
+            string[][] matrix = new string[words.Length][];
+
+
+            Dictionary<string, int> blue = new Dictionary<string, int>();
+            Dictionary<string, int> red = new Dictionary<string, int>();
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+                HashSet<string> suffixArray = SuffixArray(word);
+                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e));
+                matrix[i] = suffixArray.ToArray();
+                if (i < blueWordsCount)
+                {
+                    foreach (string s in suffixArray)
+                    {
+                        blue.TryGetValue(s, out int count);
+                        count++;
+                        blue[s] = count;
+                    }
+                }
+                else
+                {
+                    foreach (string s in suffixArray)
+                    {
+                        red.TryGetValue(s, out int count);
+                        count++;
+                        red[s] = count;
+                    }
+                }
+            }
+
+            List<string> response = new List<string>();
+
+            maxDiffBetweenBlueAndRed = 0;
+            foreach (var blueItem in blue)
+            {
+                string subStr = blueItem.Key;
+                int blueCount = blueItem.Value;
+                red.TryGetValue(subStr, out int redCount);
+                int diff = blueCount - redCount;
+                if (diff < maxDiffBetweenBlueAndRed)
+                {
+                    continue;
+                }
+                if (diff > maxDiffBetweenBlueAndRed)
+                {
+                    maxDiffBetweenBlueAndRed = diff;
+                    response.Clear();
+                }
+                response.Add(subStr);
+            }
+            response.Sort((a, b) => b.Length.CompareTo(a.Length));
+            string mostFreqSubstr = response.FirstOrDefault();
+
+            if (string.IsNullOrEmpty(mostFreqSubstr))
+            {
+                // Нет подходящих слов, нужно сгенерить
+                StringBuilder builder = new StringBuilder();
+                Random random = new Random();
+                for (int i = 0; i < 10; i++)
+                {
+                    char randomChar = (char)random.Next(97, 123);
+                    builder.Append(randomChar);
+                }
+
+                mostFreqSubstr = builder.ToString();
+            }
+            return mostFreqSubstr;
         }
     }
 }

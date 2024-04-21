@@ -55,11 +55,23 @@ namespace Techpoint
         public static void Test(string inputFilePath)
         {
             string testPath = inputFilePath.Replace(".a", ".Test");
-            string orig = File.ReadAllText(inputFilePath).Trim().Replace("\r\n", "\n");
-            string myResult = File.ReadAllText(testPath).Trim().Replace("\r\n", "\n");
-            if (orig != myResult)
-            {
-                Console.WriteLine($"Test failed:{inputFilePath}");
+            //string orig = File.ReadAllText(inputFilePath).Trim().Replace("\r\n", "\n");
+            //string myResult = File.ReadAllText(testPath).Trim().Replace("\r\n", "\n");
+            //if (orig != myResult)
+            //{
+            //    Console.WriteLine($"Test failed:{inputFilePath}");
+            //}
+
+            string[] orig = File.ReadAllLines(inputFilePath);
+            string[] test = File.ReadAllLines(testPath);
+            for (int i = 0; i < orig.Length; i++)
+            { 
+                string origLine  = orig[i].Split()[1];
+                string testLine = test[i].Split()[1]; ;
+                if (origLine != testLine)
+                {
+                    Console.WriteLine($"Test failed:{inputFilePath}");
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Text;
 
 namespace Train.Codenames
 {
@@ -7,6 +7,10 @@ namespace Train.Codenames
         public void Run(string inputFilePath = "")
         {
             string outputFilePath = $"{inputFilePath}.Test";
+            if (outputFilePath.EndsWith("10.Test"))
+            {
+                int a = 0;
+            }
             using var input = new StreamReader(inputFilePath);
             using var output = new StreamWriter(outputFilePath);
 
@@ -43,8 +47,7 @@ namespace Train.Codenames
 
 
                 string w = MostFrequentSubstr(words, blackWord, blueWordsCount, redWordsCount, out int maxDiffBetweenBlueAndRed);
-
-                int a = 0;
+                output.WriteLine($"{w} {maxDiffBetweenBlueAndRed}");
             }
         }
 
@@ -80,7 +83,7 @@ namespace Train.Codenames
 
             Dictionary<string, int> blue = new Dictionary<string, int>();
             Dictionary<string, int> red = new Dictionary<string, int>();
-
+            Dictionary<string, int> white = new Dictionary<string, int>();
             for (int i = 0; i < words.Length; i++)
             {
                 string word = words[i];
@@ -96,13 +99,22 @@ namespace Train.Codenames
                         blue[s] = count;
                     }
                 }
-                else
+                else if (i >= blueWordsCount && i < blueWordsCount + redWordsCount)
                 {
                     foreach (string s in suffixArray)
                     {
                         red.TryGetValue(s, out int count);
                         count++;
                         red[s] = count;
+                    }
+                }
+                else
+                {
+                    foreach (string s in suffixArray)
+                    {
+                        white.TryGetValue(s, out int count);
+                        count++;
+                        white[s] = count;
                     }
                 }
             }
@@ -130,6 +142,19 @@ namespace Train.Codenames
             response.Sort((a, b) => b.Length.CompareTo(a.Length));
             string mostFreqSubstr = response.FirstOrDefault();
 
+            if (string.IsNullOrEmpty(mostFreqSubstr))
+            {
+                // Нет подходящих слов, нужно сгенерить
+                StringBuilder builder = new StringBuilder();
+                Random random = new Random();
+                for (int i = 0; i < 10; i++)
+                {
+                    char randomChar = (char)random.Next(97, 123);
+                    builder.Append(randomChar);
+                }
+
+                mostFreqSubstr = builder.ToString();
+            }
             return mostFreqSubstr;
         }
     }
