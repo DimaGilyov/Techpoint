@@ -12,8 +12,8 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            CompetitionResults prigramm = new CompetitionResults();
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\236");
+            DoctorsAppointments prigramm = new DoctorsAppointments();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\282");
 
             bool start = true;
             if (start)
