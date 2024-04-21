@@ -75,9 +75,9 @@ namespace Train.Codenames
 
         public string MostFrequentSubstr(string[] words, string blackWord, int blueWordsCount, int redWordsCount, out int maxDiffBetweenBlueAndRed)
         {
-
             HashSet<string> blackWordSuffixArray = SuffixArray(blackWord);
             blackWordSuffixArray.Add(blackWord);
+            HashSet<string> wordsHash = new HashSet<string>(words);
 
             Dictionary<string, int> blue = new Dictionary<string, int>();
             Dictionary<string, int> red = new Dictionary<string, int>();
@@ -86,7 +86,7 @@ namespace Train.Codenames
             {
                 string word = words[i];
                 HashSet<string> suffixArray = SuffixArray(word);
-                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e) || words.Contains(e));
+                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e) || wordsHash.Contains(e));
                 if (i < blueWordsCount)
                 {
                     foreach (string s in suffixArray)
