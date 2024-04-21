@@ -45,10 +45,10 @@ namespace Train.Codenames
             }
         }
 
-        public List<string> SuffixArray(string str)
+        public HashSet<string> SuffixArray(string str)
         {
             int n = str.Length;
-            List<string> suffixes = new List<string>();
+            HashSet<string> suffixes = new HashSet<string>();
 
             for (int i = 0; i < n; i++)
             {
@@ -70,16 +70,16 @@ namespace Train.Codenames
         public string MostFrequentSubstr(string[] words, string blackWord, int blueWordsCount, int redWordsCount, out int maxDiffBetweenBlueAndRed)
         {
 
-            List<string> blackWordSuffixArray = SuffixArray(blackWord);
+            HashSet<string> blackWordSuffixArray = SuffixArray(blackWord);
             blackWordSuffixArray.Add(blackWord);
             string[][] matrix = new string[words.Length][];
 
             for (int i = 0; i < words.Length; i++)
             {
                 string word = words[i];
-                List<string> suffixArray = SuffixArray(word);
-                List<string> fildered = suffixArray.FindAll(x => !blackWordSuffixArray.Contains(x));
-                matrix[i] = fildered.ToArray();
+                HashSet<string> suffixArray = SuffixArray(word);
+                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e));
+                matrix[i] = suffixArray.ToArray();
             }
 
             maxDiffBetweenBlueAndRed = 0;
