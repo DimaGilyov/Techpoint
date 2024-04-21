@@ -1,5 +1,6 @@
 ﻿using Train.Alerts;
 using Train.Cards;
+using Train.Codenames;
 using Train.CompetitionResults;
 using Train.DoctorsAppointments;
 using Train.Stickers;
@@ -12,8 +13,8 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            DoctorsAppointments prigramm = new DoctorsAppointments();
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\282");
+            Codenames prigramm = new Codenames();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\237");
 
             bool start = true;
             if (start)
