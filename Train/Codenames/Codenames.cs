@@ -1,4 +1,6 @@
-﻿namespace Train.Codenames
+﻿using System.Collections;
+
+namespace Train.Codenames
 {
     internal class Codenames
     {
@@ -15,19 +17,73 @@
             for (int i = 0; i < t; i++)
             {
                 int[] data = Array.ConvertAll(input.ReadLine().Split(), int.Parse);
-                int n = data[0]; //количество слов на поле
-                int b = data[1]; //количество синих слов
-                int r = data[2]; //количество красных слов
-                int f = data[3]; //номер чёрного слова
+                int wordsCount = data[0]; 
+                int blueWordsCount = data[1]; 
+                int redWordsCount = data[2]; 
+                int blackWordIndex = data[3] - 1; 
+                int whiteWordsCount = wordsCount - blueWordsCount - redWordsCount - 1;
 
-                string[] words = new string[n];
-                for (int j = 0; j < n; j++)
+                string blackWord = string.Empty;
+                string[] words = new string[wordsCount - 1];
+                for (int j = 0; j < wordsCount; j++)
                 {
-                    words[j] = input.ReadLine();
+                    string word = input.ReadLine(); ;
+                    if (j == blackWordIndex)
+                    {
+                        blackWord = word;
+                    }
+                    else
+                    {
+                        words[j] = word;
+                    }
                 }
+
+                string w = MostFrequentSubstr(words, blackWord);
 
                 int a = 0;
             }
+        }
+
+        public List<string> SuffixArray(string str)
+        {
+            int n = str.Length;
+            List<string> suffixes = new List<string>();
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i; j < n; j++)
+                {
+                    // Не берем такую подстроку, т.к это слово целиком
+                    if (i == 0 && j == n - 1)
+                    {
+                        continue;
+                    }
+                    string s = str.Substring(i, j - i + 1);
+                    suffixes.Add(s);
+                }
+            }
+
+            return suffixes;
+        }
+
+        public string MostFrequentSubstr(string[] words, string blackWord)
+        {
+
+            List<string> blackWordSuffixArray = SuffixArray(blackWord);
+            blackWordSuffixArray.Add(blackWord);
+            foreach (string word in words)
+            {
+                List<string> suffixArray = SuffixArray(word);
+                List<string> fildered = suffixArray.FindAll(x => !blackWordSuffixArray.Contains(x));
+                int a = 0;
+            }
+
+
+            string mostFreqSubstr = string.Empty;
+
+
+
+            return mostFreqSubstr;
         }
     }
 }
