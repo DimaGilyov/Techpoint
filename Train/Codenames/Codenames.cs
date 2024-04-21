@@ -25,6 +25,8 @@ namespace Train.Codenames
 
                 string blackWord = string.Empty;
                 string[] words = new string[wordsCount - 1];
+
+                int k = 0;
                 for (int j = 0; j < wordsCount; j++)
                 {
                     string word = input.ReadLine(); ;
@@ -34,7 +36,8 @@ namespace Train.Codenames
                     }
                     else
                     {
-                        words[j] = word;
+                        words[k] = word;
+                        k++;
                     }
                 }
 
@@ -85,7 +88,29 @@ namespace Train.Codenames
             maxDiffBetweenBlueAndRed = 0;
             string mostFreqSubstr = string.Empty;
 
+            Dictionary<string, int> blue = new Dictionary<string, int>();
+            for (int i = 0; i < blueWordsCount; i++)
+            {
+                string[] subs = matrix[i];
+                foreach (string s in subs)
+                {
+                    blue.TryGetValue(s, out int count);
+                    count++;
+                    blue[s] = count;
+                }
+            }
 
+            Dictionary<string, int> red = new Dictionary<string, int>();
+            for (int i = blueWordsCount; i < blueWordsCount + redWordsCount; i++)
+            {
+                string[] subs = matrix[i];
+                foreach (string s in subs)
+                {
+                    red.TryGetValue(s, out int count);
+                    count++;
+                    red[s] = count;
+                }
+            }
 
             return mostFreqSubstr;
         }
