@@ -43,9 +43,14 @@ namespace Train.CorrectQueue
                 }
 
                 // 2. Удалим все YZ события
+                int xCount = x_indexes.Count;
+                int remMax = (n - xCount) / 2;
+                int remCount = 0;
+                //int yCount = y_indexes.Count;
+                //int zCount = z_indexes.Count;
                 for (int j = 0; j < y_indexes.Count; j++)
                 {
-                    if (z_indexes.Count == 0)
+                    if (remCount == remMax)
                     {
                         break;
                     }
@@ -55,6 +60,7 @@ namespace Train.CorrectQueue
                     {
                         y_indexes.RemoveAt(j);
                         z_indexes.RemoveAt(index);
+                        remCount++;
                     }
                 }
 
