@@ -45,6 +45,7 @@ namespace Techpoint
                 {
                     if (file.EndsWith(".Test"))
                     {
+                        Console.WriteLine($"Delete {file}");
                         File.Delete(file);
                     }
                 }
@@ -67,8 +68,8 @@ namespace Techpoint
             string[] test = File.ReadAllLines(testPath);
             for (int i = 0; i < orig.Length; i++)
             { 
-                string origLine  = orig[i].Split()[1];
-                string testLine = test[i].Split()[1]; ;
+                string origLine  = orig[i];
+                string testLine = test[i];
                 if (origLine != testLine)
                 {
                     Console.WriteLine($"Test failed:{inputFilePath} {i}, origLine={origLine}, testLine={testLine}");
