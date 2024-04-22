@@ -2,6 +2,7 @@
 using Train.Cards;
 using Train.Codenames;
 using Train.CompetitionResults;
+using Train.CorrectQueue;
 using Train.DoctorsAppointments;
 using Train.Stickers;
 using Train.Summator;
@@ -13,8 +14,8 @@ namespace Techpoint
     {
         public static void Main(string[] args)
         {
-            Codenames prigramm = new Codenames();
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\237");
+            CorrectQueue prigramm = new CorrectQueue();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\75");
 
             bool start = true;
             if (start)
