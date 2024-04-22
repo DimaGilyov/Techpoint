@@ -16,6 +16,16 @@
             {
                 int n = int.Parse(input.ReadLine());// количество сообщений в очереди
                 string message = input.ReadLine();
+
+                // Переводим в буквы в числовое значение по таблице ASCII
+                // x - 88
+                // y - 89
+                // z - 90
+                byte[] events = message.Select(c => (byte)c).ToArray();
+                for (int j = 0; j < events.Length; j++)
+                {
+                    byte @event = events[i];
+                }
             }
         }
     }
