@@ -17,7 +17,7 @@ namespace Techpoint
             CorrectQueue prigramm = new CorrectQueue();
             string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\75");
 
-            bool start = false;
+            bool start = true;
             if (start)
             {
                 DateTime startTime = DateTime.Now;

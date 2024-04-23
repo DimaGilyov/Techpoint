@@ -6,6 +6,31 @@ namespace Train.CorrectQueue
     {
         public void Run(string inputFilePath = "")
         {
+            int FindIndex(List<int> indexes, int targetIndex)
+            {
+                if (indexes.Count == 0)
+                {
+                    return -1;
+                }
+
+                int maxVal = indexes.LastOrDefault();
+                if (maxVal < targetIndex)
+                {
+                    return -1;
+                }
+
+                int middleIndex = indexes.Count / 2;
+                int middleVal = indexes[middleIndex];
+                int startIndex = 0;            
+                if (middleVal < targetIndex)
+                {
+                    startIndex = middleIndex;
+                }
+
+                int index = indexes.FindIndex(startIndex, e => e > targetIndex);
+                return index;
+            }
+
             string outputFilePath = $"{inputFilePath}.Test";
             using var input = new StreamReader(inputFilePath);
             using var output = new StreamWriter(outputFilePath);
@@ -32,7 +57,7 @@ namespace Train.CorrectQueue
                 {
                     var @event = events[j];
                     List<int> indexes = map[@event];
-                    indexes.Add(j + 1);
+                    indexes.Add(j);
                 }
 
                 int xCount = x_indexes.Count;
@@ -51,7 +76,8 @@ namespace Train.CorrectQueue
                         break;
                     }
                     int y_index = y_indexes[j];
-                    int index = z_indexes.FindIndex(e => e > y_index);
+                    int index = FindIndex(z_indexes, y_index);
+                    //FindIndex
                     if (index >= 0)
                     {
                         y_indexes.RemoveAt(j);
@@ -73,8 +99,8 @@ namespace Train.CorrectQueue
                     for (int j = 0; j < x_indexes.Count; j++)
                     {
                         int x_index = x_indexes[j];
-                        int y_index = y_indexes.FindIndex(e => e > x_index);
-                        int z_index = z_indexes.FindIndex(e => e > x_index);
+                        int y_index = FindIndex(y_indexes, x_index);
+                        int z_index = FindIndex(z_indexes, x_index);
 
                         int y_val = -1;
                         int z_val = -1;
@@ -91,15 +117,15 @@ namespace Train.CorrectQueue
 
                         if (yFirst && y_index >= 0)
                         {
-                            x_indexes.RemoveAt(j);
+                            //x_indexes.RemoveAt(j);
                             y_indexes.RemoveAt(y_index);
-                            j--;
+                            //j--;
                         }
                         else if (z_index >= 0)
                         {
-                            x_indexes.RemoveAt(j);
+                            //x_indexes.RemoveAt(j);
                             z_indexes.RemoveAt(z_index);
-                            j--;
+                            //j--;
                         }
                         else
                         {

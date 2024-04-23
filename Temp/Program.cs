@@ -1,13 +1,35 @@
-﻿using System.Text;
-
-namespace Techpoint
+﻿namespace Techpoint
 {
 
-    public class Codenames
+    public class CorrectQueue
     {
+        public static int FindIndex(List<int> indexes, int targetIndex)
+        {
+            if (indexes.Count == 0)
+            {
+                return -1;
+            }
+
+            int maxVal = indexes.LastOrDefault();
+            if (maxVal < targetIndex)
+            {
+                return -1;
+            }
+
+            int middleIndex = indexes.Count / 2;
+            int middleVal = indexes[middleIndex];
+            int startIndex = 0;
+            if (middleVal < targetIndex)
+            {
+                startIndex = middleIndex;
+            }
+
+            int index = indexes.FindIndex(startIndex, e => e > targetIndex);
+            return index;
+        }
+
         public static void Main(string[] args)
         {
-
             using var input = new StreamReader(Console.OpenStandardInput());
             using var output = new StreamWriter(Console.OpenStandardOutput());
 
@@ -51,7 +73,8 @@ namespace Techpoint
                         break;
                     }
                     int y_index = y_indexes[j];
-                    int index = z_indexes.FindIndex(e => e > y_index);
+                    int index = FindIndex(z_indexes, y_index);
+                    //FindIndex
                     if (index >= 0)
                     {
                         y_indexes.RemoveAt(j);
@@ -73,8 +96,8 @@ namespace Techpoint
                     for (int j = 0; j < x_indexes.Count; j++)
                     {
                         int x_index = x_indexes[j];
-                        int y_index = y_indexes.FindIndex(e => e > x_index);
-                        int z_index = z_indexes.FindIndex(e => e > x_index);
+                        int y_index = FindIndex(y_indexes, x_index);
+                        int z_index = FindIndex(z_indexes, x_index);
 
                         int y_val = -1;
                         int z_val = -1;
@@ -121,110 +144,6 @@ namespace Techpoint
                 string response = success ? "Yes" : "No";
                 output.WriteLine(response);
             }
-        }
-
-        public static HashSet<string> SuffixArray(string str)
-        {
-            int n = str.Length;
-            HashSet<string> suffixes = new HashSet<string>();
-
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = i; j < n; j++)
-                {
-                    // Не берем такую подстроку, т.к это слово целиком
-                    if (i == 0 && j == n - 1)
-                    {
-                        continue;
-                    }
-                    string s = str.Substring(i, j - i + 1);
-                    suffixes.Add(s);
-                }
-            }
-
-            return suffixes;
-        }
-
-        public static string MostFrequentSubstr(string[] words, string blackWord, int blueWordsCount, int redWordsCount, out int maxDiffBetweenBlueAndRed)
-        {
-            HashSet<string> blackWordSuffixArray = SuffixArray(blackWord);
-            blackWordSuffixArray.Add(blackWord);
-            HashSet<string> wordsHash = new HashSet<string>(words);
-
-            Dictionary<string, int> blue = new Dictionary<string, int>();
-            Dictionary<string, int> red = new Dictionary<string, int>();
-            Dictionary<string, int> white = new Dictionary<string, int>();
-            for (int i = 0; i < words.Length; i++)
-            {
-                string word = words[i];
-                HashSet<string> suffixArray = SuffixArray(word);
-                suffixArray.RemoveWhere(e => blackWordSuffixArray.Contains(e) || wordsHash.Contains(e));
-                if (i < blueWordsCount)
-                {
-                    foreach (string s in suffixArray)
-                    {
-                        blue.TryGetValue(s, out int count);
-                        count++;
-                        blue[s] = count;
-                    }
-                }
-                else if (i >= blueWordsCount && i < blueWordsCount + redWordsCount)
-                {
-                    foreach (string s in suffixArray)
-                    {
-                        red.TryGetValue(s, out int count);
-                        count++;
-                        red[s] = count;
-                    }
-                }
-                else
-                {
-                    foreach (string s in suffixArray)
-                    {
-                        white.TryGetValue(s, out int count);
-                        count++;
-                        white[s] = count;
-                    }
-                }
-            }
-
-            List<string> response = new List<string>();
-
-            maxDiffBetweenBlueAndRed = 0;
-            foreach (var blueItem in blue)
-            {
-                string subStr = blueItem.Key;
-                int blueCount = blueItem.Value;
-                red.TryGetValue(subStr, out int redCount);
-                int diff = blueCount - redCount;
-                if (diff < maxDiffBetweenBlueAndRed)
-                {
-                    continue;
-                }
-                if (diff > maxDiffBetweenBlueAndRed)
-                {
-                    maxDiffBetweenBlueAndRed = diff;
-                    response.Clear();
-                }
-                response.Add(subStr);
-            }
-            response.Sort((a, b) => b.Length.CompareTo(a.Length));
-            string mostFreqSubstr = response.FirstOrDefault();
-
-            if (string.IsNullOrEmpty(mostFreqSubstr))
-            {
-                // Нет подходящих слов, нужно сгенерить
-                StringBuilder builder = new StringBuilder();
-                Random random = new Random();
-                for (int i = 0; i < 10; i++)
-                {
-                    char randomChar = (char)random.Next(97, 123);
-                    builder.Append(randomChar);
-                }
-
-                mostFreqSubstr = builder.ToString();
-            }
-            return mostFreqSubstr;
         }
     }
 }
