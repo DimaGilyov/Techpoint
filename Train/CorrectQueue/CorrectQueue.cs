@@ -11,7 +11,6 @@ namespace Train.CorrectQueue
             using var output = new StreamWriter(outputFilePath);
             //using var input = new StreamReader(Console.OpenStandardInput());
             //using var output = new StreamWriter(Console.OpenStandardOutput());
-
             int t = int.Parse(input.ReadLine());
             for (int i = 0; i < t; i++)
             {
@@ -75,7 +74,11 @@ namespace Train.CorrectQueue
                     {
                         int x_index = x_indexes[j];
                         int y_index = y_indexes.FindIndex(e => e > x_index);
-                        int z_index = z_indexes.FindIndex(e => e > x_index);
+                        int z_index = -1;
+                        if (y_index != x_index + 1)
+                        {
+                            z_index = z_indexes.FindIndex(e => e > x_index);
+                        }
 
                         int y_val = -1;
                         int z_val = -1;
