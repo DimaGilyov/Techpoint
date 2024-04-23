@@ -32,7 +32,7 @@ namespace Train.CorrectQueue
                 {
                     var @event = events[j];
                     List<int> indexes = map[@event];
-                    indexes.Add(j);
+                    indexes.Add(j + 1);
                 }
 
                 int xCount = x_indexes.Count;
