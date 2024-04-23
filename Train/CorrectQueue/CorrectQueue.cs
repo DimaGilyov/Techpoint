@@ -17,11 +17,6 @@ namespace Train.CorrectQueue
             {
                 int n = int.Parse(input.ReadLine());// количество сообщений в очереди
                 string message = input.ReadLine();
-
-                if (outputFilePath.EndsWith("3.Test") && i == 150)
-                {
-                    int a = 0;
-                }
                 List<char> events = message.ToList();
 
                 // 1. Сгенерируем карту событий и интекстов
@@ -46,12 +41,10 @@ namespace Train.CorrectQueue
                 int zCount = z_indexes.Count;
 
                 // 2. Удалим все YZ события
-                List<int> yIndexesRemoved = new List<int>();
                 for (int j = 0; j < y_indexes.Count; j++)
                 {
-
                     xCount = x_indexes.Count;
-                    yCount = y_indexes.Count - yIndexesRemoved.Count;
+                    yCount = y_indexes.Count;
                     zCount = z_indexes.Count;
                     if (xCount == yCount + zCount)
                     {
@@ -62,16 +55,13 @@ namespace Train.CorrectQueue
                     int index = z_indexes.FindIndex(e => e > y_index);
                     if (index >= 0)
                     {
-                        yIndexesRemoved.Add(y_index);
+                        y_indexes.RemoveAt(j);
                         z_indexes.RemoveAt(index);
+                        j--;
                     }
                 }
 
-                foreach (int index in yIndexesRemoved)
-                {
-                    int j = y_indexes.FindIndex(e => e == index);
-                    y_indexes.RemoveAt(j);
-                }
+
 
                 // 3. Пробуем собрать все XY и XZ события
                 bool success = true;
@@ -102,13 +92,15 @@ namespace Train.CorrectQueue
 
                         if (yFirst && y_index >= 0)
                         {
-                            //x_indexes.RemoveAt(j);
+                            x_indexes.RemoveAt(j);
                             y_indexes.RemoveAt(y_index);
+                            j--;
                         }
                         else if (z_index >= 0)
                         {
-                            //x_indexes.RemoveAt(j);
+                            x_indexes.RemoveAt(j);
                             z_indexes.RemoveAt(z_index);
+                            j--;
                         }
                         else
                         {
