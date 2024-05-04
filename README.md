@@ -1,6 +1,6 @@
 ### Дмитрий Гилёв
 *email: (dimagilev91@gmail.com)*
-*github: (https://github.com/DimaGilyov/Techpoint)*
+*github: (https://github.com/DimaGilyov)*
 
 #### Образование
 - Высшее образование: Новосибирский Государственный Технический Университет
