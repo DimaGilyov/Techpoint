@@ -10,13 +10,13 @@
             //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\287");
             //ITask task = new Task2();
             //
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\288");
-            ITask task = new Task3();
+            //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\288");
+            //ITask task = new Task3();
             //
-            //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\75");
-            //ITask task = new Task4();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\278");
+            ITask task = new Task4();
             //
-            //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\75");
+            //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\283");
             //ITask task = new Task5();
             //
             //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\75");
