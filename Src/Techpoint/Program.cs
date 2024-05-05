@@ -4,11 +4,11 @@
     {
         public static void Main(string[] args)
         {
-            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\75");
-            ITask task = new Task1();
+            //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\55");
+            //ITask task = new Task1();
 
-            //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\75");
-            //ITask task = new Task2();
+            string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\287");
+            ITask task = new Task2();
             //
             //string[] files = Directory.GetFiles(@"C:\Users\DimaG\Downloads\75");
             //ITask task = new Task3();

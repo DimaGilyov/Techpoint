@@ -10,6 +10,9 @@
 
             //using var input = new StreamReader(Console.OpenStandardInput());
             //using var output = new StreamWriter(Console.OpenStandardOutput());
+            int[] nums = Array.ConvertAll(input.ReadLine().Split(), int.Parse);
+            int answer = nums[0] - nums[1];
+            output.WriteLine(answer);
         }
     }
 }
